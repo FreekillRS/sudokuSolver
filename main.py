@@ -2,6 +2,12 @@ import time
 from tkinter import *
 
 
+def updateColor(stepByStep, wait):
+	if stepByStep:
+		root.update()
+		time.sleep(wait)
+
+
 def noSolution(check, i, j, color=None):
 	if check == set():
 		infoText['text'] = "This puzzle doesn't have a solution!"
@@ -82,6 +88,7 @@ def buttonClick(stepByStep):
 				for k in range(9):
 					if len(duSudoku[i][k]) == 1:
 						duSudoku[i][j] = duSudoku[i][j].difference(duSudoku[i][k])
+
 					if len(duSudoku[k][j]) == 1:
 						duSudoku[i][j] = duSudoku[i][j].difference(duSudoku[k][j])
 
@@ -101,16 +108,20 @@ def buttonClick(stepByStep):
 							noSolution(set(), i, j)
 							return
 
-	timer = 0.03
+	timer = 0.005
 	change = 1
+
 	while change:
 		change = 0
+
 		for i in range(9):
 			for j in range(9):
 				color = table[i][j].cget('bg')
+
 				if len(duSudoku[i][j]) > 1:
 					color = table[i][j].cget('bg')
 					table[i][j]['bg'] = 'red'
+
 					if stepByStep:
 						root.update()
 
@@ -125,13 +136,12 @@ def buttonClick(stepByStep):
 						if m != j:
 							potentialX = potentialX.difference(duSudoku[i][m])
 							table[i][m]['bg'] = 'yellow'
+
 						if m != i:
 							potentialY = potentialY.difference(duSudoku[m][j])
 							table[m][j]['bg'] = 'yellow'
 
-						if stepByStep:
-							root.update()
-							time.sleep(timer)
+						updateColor(stepByStep, timer)
 
 						table[i][m]['bg'] = color1
 						table[m][j]['bg'] = color2
@@ -143,9 +153,7 @@ def buttonClick(stepByStep):
 								color1 = table[q][r].cget('bg')
 								table[q][r]['bg'] = 'yellow'
 
-								if stepByStep:
-									root.update()
-									time.sleep(timer)
+								updateColor(stepByStep, timer)
 
 								table[q][r]['bg'] = color1
 
@@ -164,19 +172,20 @@ def buttonClick(stepByStep):
 						color1 = table[i][k].cget('bg')
 						table[i][k]['bg'] = 'purple'
 
-						if stepByStep:
-							root.update()
-							time.sleep(timer)
+						updateColor(stepByStep, timer)
 
 						table[i][k]['bg'] = color1
 						if duSudoku[i][j] == duSudoku[i][k]:
 							count += 1
+
 							if count == len(duSudoku[i][j]):
 								for m in range(9):
 									if duSudoku[i][m] != duSudoku[i][j]:
 										duSudoku[i][m] = duSudoku[i][m].difference(duSudoku[i][j])
+
 										if noSolution(duSudoku[i][m], i, j, color):
 											return
+
 										change = 1
 
 					count = 1
@@ -184,19 +193,21 @@ def buttonClick(stepByStep):
 						color1 = table[k][j].cget('bg')
 						table[k][j]['bg'] = 'purple'
 
-						if stepByStep:
-							root.update()
-							time.sleep(timer)
+						updateColor(stepByStep, timer)
 
 						table[k][j]['bg'] = color1
+
 						if duSudoku[i][j] == duSudoku[k][j]:
 							count += 1
+
 							if count == len(duSudoku[i][j]):
 								for m in range(9):
 									if duSudoku[m][j] != duSudoku[i][j]:
 										duSudoku[m][j] = duSudoku[m][j].difference(duSudoku[i][j])
+
 										if noSolution(duSudoku[m][j], i, j, color):
 											return
+
 										change = 1
 
 					count = 0
@@ -205,21 +216,23 @@ def buttonClick(stepByStep):
 							color1 = table[k][q].cget('bg')
 							table[k][q]['bg'] = 'purple'
 
-							if stepByStep:
-								root.update()
-								time.sleep(timer)
+							updateColor(stepByStep, timer)
 
 							table[k][q]['bg'] = color1
+
 							if duSudoku[i][j] == duSudoku[k][q]:
 								count += 1
+
 								if count == len(duSudoku[i][j]):
 
 									for m in range(i // 3 * 3, i // 3 * 3 + 3):
 										for n in range(j // 3 * 3, j // 3 * 3 + 3):
 											if duSudoku[m][n] != duSudoku[i][j]:
 												duSudoku[m][n] = duSudoku[m][n].difference(duSudoku[i][j])
+
 												if noSolution(duSudoku[m][n], i, j, color):
 													return
+
 												change = 1
 
 				elif changed[i][j] == 1 and len(duSudoku[i][j]) == 1:
@@ -229,7 +242,7 @@ def buttonClick(stepByStep):
 	clearButton['state'] = NORMAL
 	resetButton['state'] = NORMAL
 
-	print(str(time.time() - start)+" seconds")
+	print(str(time.time() - start) + " seconds")
 
 	for i in duSudoku:
 		for j in i:

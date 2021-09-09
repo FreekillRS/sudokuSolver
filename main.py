@@ -108,7 +108,7 @@ def buttonClick(stepByStep):
 							noSolution(set(), i, j)
 							return
 
-	timer = 0.005
+	timer = 0.03
 	change = 1
 
 	while change:

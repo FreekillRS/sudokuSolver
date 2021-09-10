@@ -9,4 +9,3 @@ Yellow tiles indicate a try to exclude values based on the values that are alrea
 Purple tiles indicate a try to pinpoint a value that can only be in that spot based on values which value can't be in any other spot in its block, row or column.
 
 An example matrix automatically loads on start if you want to test it out.
-If you are for whatever reason interested in how it works but you can't figure it out yourself, send me an email.

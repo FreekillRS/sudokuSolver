@@ -1,5 +1,5 @@
 # Sudoku Solver
-My solution to the Sudoku game with TKinter GUI.
+Sudoku with Step-By-Step solver and TKinter GUI.
 
 Finds all possible numbers for each empty slot and narrows them down until a single number remains, more messy but overall faster than backtracking.
 
